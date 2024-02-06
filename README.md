@@ -43,6 +43,7 @@ Arguments
     -H / --highest: Highest frequency of the range in Hz (default: 24000).
     -d / --duration: Duration per symbol in seconds (default: 0.1).
     -v / --verbose: Enable verbose output for debugging and detailed process information.
+    -p / --processes: Fairly useless, since its not very intensive at the moment. sets the amount of processes for the script. (default: all)
 
 ### Running the Tool
 
