@@ -13,10 +13,10 @@ You can customize the frequency range to suit your hardware capabilities and the
 - supports .flac, .wav, and .mp3
 ### Limitations:
 
-- Processing Time: Generating files, especially large ones, may take a significant amount of time.
+- Processing Time: Generating files, especially large ones, may take a significant amount of time to modulate or 
 - Hardware Dependency: The effectiveness of frequency penetration and the quality of audio conversion depend on the hardware used for playback and recording.
 - Audibility: Default settings use ultrasonic frequencies. Adjust -L and -H for audible ranges if needed.
-- Interference: Noisy environments will be considerably harder to exfiltrate data from. You may need to turn it up to 11, or transmit multiple times and normalize the data. 
+- Interference: Noisy environments will be considerably harder to exfiltrate data from. You may need to turn your volume up to 11, or transmit multiple times and normalize the data. 
 ### Requirements
 
 Ensure you have the following requirements installed:
