@@ -6,10 +6,10 @@ ExfilHz is a tool designed for covert data transfer using audio signals. The too
 You can customize the frequency range to suit your hardware capabilities and the specific requirements of your environment. The tool is especially useful for scenarios where conventional data transfer methods are not feasible or are heavily monitored.
 ### Features:
 
-    Hexadecimal Encoding: Converts files to and from audio using a hexadecimal-based modulation scheme.
-    Infrasonic and Ultrasonic Support: Operates outside the human range of hearing to avoid detection.
-    Customizable Frequency Range: Tailor the frequency range to match your hardware and penetration needs.
-    Material Penetration: Lower frequency ranges can be used to penetrate materials like glass more effectively.
+- Hexadecimal Encoding: Converts files to and from audio using a hexadecimal-based modulation scheme.
+- Infrasonic and Ultrasonic Support: Operates outside the human range of hearing to avoid detection.
+- Customizable Frequency Range: Tailor the frequency range to match your hardware and penetration needs.
+- Material Penetration: Lower frequency ranges can be used to penetrate materials like glass more effectively.
 
 ### Limitations:
 
