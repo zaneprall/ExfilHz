@@ -39,9 +39,9 @@ Arguments
     input: Path to the input file or the input FLAC audio.
     output: Path for the output file or the output FLAC audio.
     -r / --rate: Sample rate in Hz (default: 48000).
-    -L / --lowest: Lowest frequency of the range in Hz (default: 22000).
-    -H / --highest: Highest frequency of the range in Hz (default: 24000).
-    -d / --duration: Duration per symbol in seconds (default: 0.1).
+    -L / --lowest: Lowest frequency of the range in Hz (default: 21000).
+    -H / --highest: Highest frequency of the range in Hz (default: 22000).
+    -d / --duration: Duration per symbol in seconds (default: 0.05).
     -v / --verbose: Enable verbose output for debugging and detailed process information.
     -p / --processes: Fairly useless, since its not very intensive at the moment. sets the amount of processes for the script. (default: all)
 
