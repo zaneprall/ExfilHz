@@ -3,6 +3,7 @@ import soundfile as sf
 import argparse
 from scipy.signal import butter, lfilter
 from scipy.fftpack import fft
+from pydub import AudioSegment
 import logging
 import sys
 import os
@@ -25,6 +26,11 @@ def modulate_hex(data, tone_freqs, sample_rate, duration_per_symbol):
 
         # Append the tone to the signal
         signal = np.concatenate((signal, tone))
+
+    signal = signal.astype(np.float32)  # Ensure the data type is float32
+    max_val = np.max(np.abs(signal))    # Find the maximum absolute value for normalization
+    if max_val > 0:
+        signal = signal / max_val       # Normalize
 
     return signal
 
@@ -65,28 +71,51 @@ def demodulate_hex(signal, tone_freqs, sample_rate, duration_per_symbol):
     return decoded_bytes
 
 def process_file(input_file, output_file, tone_freqs, sample_rate, duration_per_symbol):
-    operation = 'decode' if input_file.lower().endswith('.flac') else 'encode'
+    # Determine the operation based on file extension
+    is_decode = input_file.lower().endswith(('.flac', '.wav', '.mp3'))
 
-    if operation == 'encode':
-        logging.info(f'Starting encoding of {input_file}')
-        with open(input_file, 'rb') as f:
-            data = f.read()
-        logging.info('Modulating signal...')
-        signal = modulate_hex(data, tone_freqs, sample_rate, duration_per_symbol)
-        logging.info(f'Writing modulated signal to {output_file}')
-        sf.write(output_file, signal, sample_rate)
-        logging.info(f'Encoding complete: {input_file} -> {output_file}')
-    elif operation == 'decode':
-        logging.info(f'Starting decoding of {input_file}')
-        signal, _ = sf.read(input_file)
-        logging.info('Demodulating signal...')
+    if is_decode:
+        # Decoding: Read the audio file and demodulate the signal
+        if input_file.lower().endswith(('.flac', '.wav')):
+            signal, _ = sf.read(input_file)
+        elif input_file.lower().endswith('.mp3'):
+            audio_segment = AudioSegment.from_mp3(input_file)
+            signal = np.array(audio_segment.get_array_of_samples())
+        else:
+            logging.error(f'Unsupported input file format for decoding: {input_file}')
+            sys.exit(1)
+
+        # Demodulate the signal to retrieve data
         data = demodulate_hex(signal, tone_freqs, sample_rate, duration_per_symbol)
+
+        # Write the retrieved data to the output file
         with open(output_file, 'wb') as f:
             f.write(data)
         logging.info(f'Decoding complete: {input_file} -> {output_file}')
+
     else:
-        logging.error('Unsupported file format for input.')
-        sys.exit(1)
+        # Encoding: Read the input file and modulate the data
+        with open(input_file, 'rb') as f:
+            data = f.read()
+
+        signal = modulate_hex(data, tone_freqs, sample_rate, duration_per_symbol)
+
+        # Write the modulated signal to an audio file
+        if output_file.lower().endswith('.flac') or output_file.lower().endswith('.wav'):
+            sf.write(output_file, signal, sample_rate)
+        elif output_file.lower().endswith('.mp3'):
+            audio_segment = AudioSegment(
+                signal.tobytes(),
+                frame_rate=sample_rate,
+                sample_width=signal.dtype.itemsize,
+                channels=1
+            )
+            audio_segment.export(output_file, format="mp3")
+        else:
+            logging.error('Unsupported output file format for encoding.')
+            sys.exit(1)
+
+        logging.info(f'Encoding complete: {input_file} -> {output_file}')
 
 
 def main():
@@ -110,7 +139,7 @@ def main():
     parser.add_argument('-d', '--duration', type=float, default=0.1, help='Duration per symbol in seconds. This will impact the length of the .flac file. (default: 0.1).')
     parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose output for debugging and detailed process information.')
     parser.add_argument('-p', '--processes', type=int, default=os.cpu_count(), help='Number of processes to use (default: use all available cores).')
-  
+
     args = parser.parse_args()
 
     if args.verbose:
@@ -129,7 +158,7 @@ def main():
         logging.error(f"The lowest frequency must be non-negative and less than the highest frequency. Lowest: {args.lowest} Hz, Highest: {args.highest} Hz")
         sys.exit(1)
 
-    # List of files to process
+    # List of files to process (modify according to your use case)
     files_to_process = [(args.input, args.output)]
 
     # Parameters constant for all tasks
@@ -138,7 +167,7 @@ def main():
     # Use multiprocessing.Pool to parallelize the file processing
     with Pool(processes=args.processes) as pool:
     # Prepare the arguments for each call to process_file
-        tasks = [(inp, out) + constant_params for inp, out in files_to_process]
+        tasks = [(args.input, args.output) + constant_params for _ in range(args.processes)]
 
         # Map process_file function to each set of arguments
         pool.starmap(process_file, tasks)
