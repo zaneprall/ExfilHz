@@ -25,6 +25,7 @@ Ensure you have the following requirements installed:
     NumPy
     SciPy
     SoundFile
+    pydub
 
 Pip command:
 
