@@ -10,7 +10,7 @@ You can customize the frequency range to suit your hardware capabilities and the
 - Infrasonic and Ultrasonic Support: Operates outside the human range of hearing to avoid detection.
 - Customizable Frequency Range: Tailor the frequency range to match your hardware and penetration needs.
 - Material Penetration: Lower frequency ranges can be used to penetrate materials like glass more effectively.
-
+- supports .flac, .wav, and .mp3
 ### Limitations:
 
 - Processing Time: Generating files, especially large ones, may take a significant amount of time.
