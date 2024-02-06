@@ -134,9 +134,9 @@ def main():
     parser.add_argument('input', help='Path to the input file or the input FLAC audio.')
     parser.add_argument('output', help='Path for the output file or the output FLAC audio.')
     parser.add_argument('-r', '--rate', type=int, default=48000, help='Sample rate in Hz (default: 48000).')
-    parser.add_argument('-L', '--lowest', type=int, default=22000, help='Lowest frequency of the range in Hz (default: 22000).')
-    parser.add_argument('-H', '--highest', type=int, default=24000, help='Highest frequency of the range in Hz (default: 24000).')
-    parser.add_argument('-d', '--duration', type=float, default=0.1, help='Duration per symbol in seconds. This will impact the length of the .flac file. (default: 0.1).')
+    parser.add_argument('-L', '--lowest', type=int, default=21000, help='Lowest frequency of the range in Hz (default: 21000).')
+    parser.add_argument('-H', '--highest', type=int, default=22000, help='Highest frequency of the range in Hz (default: 22000).')
+    parser.add_argument('-d', '--duration', type=float, default=0.05, help='Duration per symbol in seconds. This will impact the length of the .flac file. (default: 0.05).')
     parser.add_argument('-v', '--verbose', action='store_true', help='Enable verbose output for debugging and detailed process information.')
     parser.add_argument('-p', '--processes', type=int, default=os.cpu_count(), help='Number of processes to use (default: use all available cores).')
 
