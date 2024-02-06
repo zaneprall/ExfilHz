@@ -31,6 +31,8 @@ Pip command:
 
     pip install -r requirements.txt
 
+You'll likely need to add ffmpeg to your environment variables if building a file on windows. This tool is significantly easier to get running on linux.
+
 ### Usage
 Arguments
 
